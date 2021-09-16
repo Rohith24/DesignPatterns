@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingleResponsibility", "Sin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenClose", "OpenClose\OpenClose.csproj", "{287D8C17-1E4B-4080-8929-191E3EB72F6E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiskovsSubstitution", "LiskovsSubstitution\LiskovsSubstitution.csproj", "{0BC9EF77-51C6-491F-813B-2F8AAB991CF0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{287D8C17-1E4B-4080-8929-191E3EB72F6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{287D8C17-1E4B-4080-8929-191E3EB72F6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{287D8C17-1E4B-4080-8929-191E3EB72F6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BC9EF77-51C6-491F-813B-2F8AAB991CF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BC9EF77-51C6-491F-813B-2F8AAB991CF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BC9EF77-51C6-491F-813B-2F8AAB991CF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BC9EF77-51C6-491F-813B-2F8AAB991CF0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
