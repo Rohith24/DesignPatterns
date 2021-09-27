@@ -43,10 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractFactory - Copy.cs" />
     <Compile Include="AsyncFactoryProgram.cs" />
     <Compile Include="FactoryProgram.cs" />
     <Compile Include="InnerFactor.cs" />
     <Compile Include="ObjectTracking.cs" />
+    <Compile Include="AbstractFactory.cs" />
     <Compile Include="SeperateFactory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
