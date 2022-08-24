@@ -2,10 +2,16 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace Adapter
 {
-    public class Point
+    interface IPoint
+    {
+        void Draw();
+    }
+
+    public class Point : IPoint
     {
         public int X { get; set; }
         public int Y { get; set; }
@@ -19,7 +25,14 @@ namespace Adapter
         {
             return $"({X},{Y})";
         }
+
+        public void Draw()
+        {
+            Console.SetCursorPosition(X, Y);
+            Console.Write(".");
+        }
     }
+
     public class Line
     {
         public Point Start, End;
@@ -29,29 +42,48 @@ namespace Adapter
             Start = start;
             End = end;
         }
+
+        public void Draw()
+        {
+            Start.Draw();
+            End.Draw();
+        }
+    }
+    public interface IRectangle
+    {
+        void DrawRectangle();
     }
 
-    public class Vector : Collection<Line>
+    public class Rectangle : IRectangle
     {
+        public List<Line> lines;
 
-    }
-    public class Rectangle : Vector
-    {
         public Rectangle(int x, int y, int width, int height)
         {
-            Add(new Line(new Point(x, y), new Point(x + width, y)));
-            Add(new Line(new Point(x + width, y), new Point(x + width, y + height)));
-            Add(new Line(new Point(x, y), new Point(x, y + height)));
-            Add(new Line(new Point(x, y + height), new Point(x + width, y + height)));
+            lines = new List<Line>();
+            lines.Add(new Line(new Point(x, y), new Point(x + width, y)));
+            lines.Add(new Line(new Point(x + width, y), new Point(x + width, y + height)));
+            lines.Add(new Line(new Point(x, y), new Point(x, y + height)));
+            lines.Add(new Line(new Point(x, y + height), new Point(x + width, y + height)));
+        }
+
+        public void DrawRectangle()
+        {
+            foreach (var line in lines)
+            {
+                line.Draw();
+            }
+           
         }
     }
 
-    public class LineToPointAdapter : Collection<Point>
+    public class LineToPointAdapter : IPoint
     {
-        private static int count;
+        List<Point> points;
         public LineToPointAdapter(Line line)
         {
-            Console.WriteLine($"{++count}: Generating points for line [{line.Start}, {line.End}]");
+            points = new List<Point>();
+            //Console.WriteLine($"\n{++count}: Generating points for line [{line.Start}, {line.End}]");
             int left = Math.Min(line.Start.X, line.End.X);
             int right = Math.Max(line.Start.X, line.End.X);
             int top = Math.Min(line.Start.Y, line.End.Y);
@@ -63,46 +95,39 @@ namespace Adapter
             {
                 for (int y = top; y <= bottom; ++y)
                 {
-                    Add(new Point(left, y));
+                    points.Add(new Point(left, y));
                 }
             }
             else if (dy == 0)
             {
                 for (int x = left; x <= right; ++x)
                 {
-                    Add(new Point(x, top));
+                    points.Add(new Point(x, top));
                 }
+            }
+        }
+
+        public void Draw()
+        {
+            foreach (var point in points)
+            {
+                point.Draw();
             }
         }
     }
 
     public class AdpterDemo
     {
-        private static readonly List<Vector> Vectors = new List<Vector>
-        {
-            new Rectangle(1,1, 10, 10),
-            new Rectangle(3, 3, 6, 6),
-        };
-
-        public static void DrawPoint(Point p)
-        {
-            Console.Write(".");
-        }
-
         static void Main(string[] args)
         {
-            foreach (var vo in Vectors)
+            var rect = new Rectangle(1, 1, 10, 10);
+            rect.DrawRectangle();
+            foreach (var line in rect.lines)
             {
-                foreach (var line in vo)
-                {
-                    var adapter = new LineToPointAdapter(line);
-                    foreach (var point in adapter)
-                    {
-                        DrawPoint(point);
-                    }
-                }
-
+                var adapter = new LineToPointAdapter(line);
+                adapter.Draw();
             }
+            Console.SetCursorPosition(1, 30);
         }
     }
 }
