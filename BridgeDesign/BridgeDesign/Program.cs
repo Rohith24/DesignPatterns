@@ -69,7 +69,7 @@ namespace BridgeDesign
 
     public class Program
     {
-        static void Main(string[] args)
+        static void Main1(string[] args)
         {
             var render = new RasterRenderer();
             var circle = new Circle(render, 5);
