@@ -1,87 +1,101 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using System.Text.Json.Serialization;
 
-namespace BridgeDesign
+public interface IEngine
 {
-    public abstract class Vehicle
+    void StartEngine();
+    void StopEngine();
+}
+
+public class PetrolEngine : IEngine
+{
+    public void StartEngine()
     {
-        protected IWorkshop Workshop1;
-        protected IWorkshop Workshop2;
-
-        public Vehicle(IWorkshop workshop1, IWorkshop workshop2)
-        {
-            this.Workshop1 = workshop1;
-            this.Workshop2 = workshop2;
-        }
-
-        abstract public void Manufacture();
+        Console.WriteLine("Starting Petrol Engine...");
     }
 
-    public class Car : Vehicle
+    public void StopEngine()
     {
-        public Car(IWorkshop workshop1, IWorkshop workshop2): base(workshop1, workshop2) 
-        {
+        Console.WriteLine("Stopping Petrol Engine...");
+    }
+}
 
-        }
-
-        public override void Manufacture()
-        {
-            Console.WriteLine("Car");
-            Workshop1.Work();
-            Workshop2.Work();
-        }
+public class ElectricEngine : IEngine
+{
+    public void StartEngine()
+    {
+        Console.WriteLine("Starting Electric Engine...");
     }
 
-
-    public class Bike : Vehicle
+    public void StopEngine()
     {
-        public Bike(IWorkshop workshop1, IWorkshop workshop2) : base(workshop1, workshop2)
-        {
+        Console.WriteLine("Stopping Electric Engine...");
+    }
+}
 
-        }
+public abstract class Vehicle
+{
+    protected IEngine engine;
 
-        public override void Manufacture()
-        {
-            Console.WriteLine("Bike");
-            Workshop1.Work();
-            Workshop2.Work();
-        }
+    protected Vehicle(IEngine engine)
+    {
+        this.engine = engine;
     }
 
-    public interface IWorkshop
+    public abstract void Drive();
+    public abstract void Stop();
+}
+
+public class Car : Vehicle
+{
+    public Car(IEngine engine) : base(engine) { }
+
+    public override void Drive()
     {
-        public void Work();
+        Console.WriteLine("Car is driving...");
+        engine.StartEngine();
     }
 
-
-    public class ProduceParts : IWorkshop
+    public override void Stop()
     {
-        public void Work()
-        {
-            Console.WriteLine("Produced Parts");
-        }
+        Console.WriteLine("Car is stopping...");
+        engine.StopEngine();
+    }
+}
+
+public class Bike : Vehicle
+{
+    public Bike(IEngine engine) : base(engine) { }
+
+    public override void Drive()
+    {
+        Console.WriteLine("Bike is driving...");
+        engine.StartEngine();
     }
 
-    public class AssembleParts : IWorkshop
+    public override void Stop()
     {
-        public void Work()
-        {
-            Console.WriteLine("Assembled Parts");
-        }
+        Console.WriteLine("Bike is stopping...");
+        engine.StopEngine();
     }
+}
 
-
-    public class VehiclesExample
+class Program
+{
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            Vehicle vehicle1 = new Car(new ProduceParts(), new AssembleParts());
-            vehicle1.Manufacture();
-            Vehicle vehicle2 = new Bike(new ProduceParts(), new AssembleParts());
-            vehicle2.Manufacture();
-        }
+        Vehicle PetrolCar = new Car(new PetrolEngine());
+        PetrolCar.Drive();
+        PetrolCar.Stop();
+
+        Vehicle ectricleCar = new Car(new ElectricEngine());
+        ectricleCar.Drive();
+        ectricleCar.Stop();
+
+        Vehicle electricBike = new Bike(new ElectricEngine());
+        electricBike.Drive();
+        electricBike.Stop();
+        
     }
 }
